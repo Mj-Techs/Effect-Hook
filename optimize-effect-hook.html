@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../forms/js/react.development.js"></script>
+    <script src="../forms/js/react-dom.development.js"></script>
+    <script src="../forms/js/babel.js"></script>
+
+    <script type="text/babel">
+      const rootHandle = document.getElementById("root");
+      const { useState, useEffect } = React;
+      function GenderCount(props) {
+        const [maleCount, setMaleCount] = useState(0);
+        const [femaleCount, setFemaleCount] = useState(0);
+
+        useEffect(() => {
+          alert("male count code");
+        }, [maleCount]);
+        useEffect(() => {
+          alert("female count code");
+        }, [femaleCount]);
+
+        return (
+          <div>
+            <h2>
+              Male-{maleCount},Female-{femaleCount}
+            </h2>
+            <button
+              onClick={() => {
+                setMaleCount(maleCount + 1);
+              }}
+            >
+              +1 male
+            </button>
+            <button
+              onClick={() => {
+                setFemaleCount(femaleCount + 1);
+              }}
+            >
+              +1 female
+            </button>
+          </div>
+        );
+      }
+      ReactDOM.render(<GenderCount />, rootHandle);
+    </script>
+  </body>
+</html>
