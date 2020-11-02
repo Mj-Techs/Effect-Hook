@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../forms/js/react.development.js"></script>
+    <script src="../forms/js/react-dom.development.js"></script>
+    <script src="../forms/js/babel.js"></script>
+
+    <script type="text/babel">
+      const rootHandle = document.getElementById("root");
+      const { useState, useEffect } = React;
+      function BookTickets(props) {
+        const [ticket, setTicket] = useState(1);
+        useEffect(() => {
+          alert("welcome to booking");
+        }, []);
+        return (
+          <div>
+            <h2>you have booked {ticket} ticket/s</h2>
+            <button
+              onClick={() => {
+                setTicket(ticket + 1);
+              }}
+            >
+              +1
+            </button>
+          </div>
+        );
+      }
+      ReactDOM.render(<BookTickets />, rootHandle);
+    </script>
+  </body>
+</html>
