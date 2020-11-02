@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../forms/js/react.development.js"></script>
+    <script src="../forms/js/react-dom.development.js"></script>
+    <script src="../forms/js/babel.js"></script>
+
+    <script type="text/babel">
+      const rootHandle = document.getElementById("root");
+      const { useEffect } = React;
+      function SampleComponent(props) {
+        useEffect(() => {
+          //   alert(" component rendered");
+          document.title = "Sample Component";
+        });
+        return (
+          <div>
+            <h1>Sample Component</h1>;
+          </div>
+        );
+      }
+
+      ReactDOM.render(<SampleComponent />, rootHandle);
+    </script>
+  </body>
+</html>
