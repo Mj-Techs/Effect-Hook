@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../forms/js/react.development.js"></script>
+    <script src="../forms/js/react-dom.development.js"></script>
+    <script src="../forms/js/babel.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script type="text/babel">
+      const rootHandle = document.getElementById("root");
+      const url = "https://restcountries.eu/rest/v2/all?fields=name;capital";
+
+      const { useState, useEffect } = React;
+
+      function CountriesList(props) {
+        const [countries, setCountries] = useState([]);
+
+        useEffect(() => {
+          axios.get(url).then((response) => {
+            // after successfully review
+            // console.log(response.data);
+            const result = response.data;
+            setCountries(result);
+          });
+        }, []);
+        return (
+          <div>
+            <h2>Listing Countries - {countries.length}</h2>
+            <table border="1px">
+              <thead>
+                <tr>
+                  <th>Country</th>
+                  <th>Capital</th>
+                </tr>
+              </thead>
+              <tbody>
+                {countries.map((ele, i) => {
+                  return (
+                    <tr key={i}>
+                      <td>{ele.name} </td>
+                      <td>
+                        <button
+                          onClick={() => {
+                            alert(`${ele.capital}`);
+                          }}
+                        >
+                          show
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        );
+      }
+      ReactDOM.render(<CountriesList />, rootHandle);
+    </script>
+  </body>
+</html>
