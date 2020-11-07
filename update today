@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+
+    <div id="root">
+
+    </div>
+
+    <script src="js/react.development.js"></script>
+    <script src="js/react-dom.development.js"></script>
+    <script src="js/babel.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+
+        const url = "https://jsonplaceholder.typicode.com/users"
+
+        const { useState, useEffect } = React
+
+        function UsersSelect(props) {
+            const [selectedUser, setSelectedUser] = useState('')
+            const [users, setUsers] = useState([])
+
+            useEffect(() => {
+                axios.get(url)
+                    .then((response) => {
+                        const result = response.data 
+                        // console.log(result)
+                        setUsers(result)
+                    })
+            }, [])
+
+            const handleChange = (e) => {
+                const inputValue = e.target.value 
+                setSelectedUser(inputValue)
+            }
+
+            const displayInfo = () => {
+                const user = users.find(user => user.id == selectedUser)
+                if(user) {
+                    return <p> { user.name } - { user.email } </p> 
+                } else {
+                    return <p> no user found </p> 
+                }
+            }
+
+            return (
+                <div>
+                    <select value={selectedUser} onChange={handleChange}>
+                        <option value="">Select user </option> 
+                        { users.map((ele) => {
+                            return <option key={ele.id} value={ele.id}> { ele.name } </option> 
+                        })}
+                    </select>
+
+                    { selectedUser && displayInfo() }
+                </div> 
+            )
+        }
+        
+        ReactDOM.render(<UsersSelect />, rootHandle)
+    </script>
+</body>
+
+</html>

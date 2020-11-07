@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/babel-standalone@6.26.0/babel.js"
+    ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script type="text/babel">
+      const rootHandle = document.getElementById("root");
+      const { useState, useEffect } = React;
+      const url = "https://jsonplaceholder.typicode.com/users";
+      function UsersSelect(props) {
+        const [users, setUsers] = useState([]);
+        const [select, setSelect] = useState("");
+        console.log(select);
+        useEffect(() => {
+          axios.get(url).then((respone) => {
+            setUsers(respone.data);
+          });
+        }, []);
+        const handleChange = (e) => {
+          setSelect(e.target.value);
+        };
+        return (
+          <form>
+            <label>Users</label>
+            <select value={select} onChange={handleChange}>
+              <option value="">select user</option>
+              {users.map((user) => {
+                return (
+                  <option value={user.id} key={user.id}>
+                    {user.name}
+                  </option>
+                );
+              })}
+            </select>
+          </form>
+        );
+      }
+      ReactDOM.render(<UsersSelect />, rootHandle);
+    </script>
+  </body>
+</html>

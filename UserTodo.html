@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/babel-standalone@6.26.0/babel.js"
+    ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script type="text/babel">
+      const rootHandle = document.getElementById("root");
+      const { useState, useEffect } = React;
+      const url = "https://jsonplaceholder.typicode.com/users";
+      const todoUrl = " https://jsonplaceholder.typicode.com/todos";
+      function ShowTodo(props) {
+        const { filteredUser } = props;
+
+        return (
+          <div>
+            <h2>Listing Tasks</h2>
+            <ul>
+              {filteredUser.map((user) => {
+                return (
+                  <li
+                    key={user.id}
+                    style={{
+                      textDecoration: user.completed ? "line-through" : "none",
+                    }}
+                  >
+                    {user.title}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        );
+      }
+      function SelectUser(props) {
+        const { users, todoList } = props;
+        const [selectedUser, setSelectedUser] = useState("");
+        const [filteredUser, setFilteredUser] = useState([]);
+        // console.log(todoList);
+        const handleChangeSelect = (e) => {
+          const SelectInput = e.target.value;
+          setSelectedUser(SelectInput);
+          const result = todoList.filter((user) => user.userId == SelectInput);
+          setFilteredUser(result);
+        };
+        return (
+          <div>
+            <label>Users</label>
+            <select onChange={handleChangeSelect}>
+              <option value="">Select user</option>
+              {users.map((user) => {
+                return (
+                  <option value={user.id} key={user.id}>
+                    {user.name}
+                  </option>
+                );
+              })}
+            </select>
+            {selectedUser && <ShowTodo filteredUser={filteredUser} />}
+          </div>
+        );
+      }
+      function App(props) {
+        const [users, setUser] = useState([]);
+        const [todoList, setTodoList] = useState([]);
+        useEffect(() => {
+          axios.get(url).then((response) => {
+            // console.log(response.data);
+            setUser(response.data);
+          });
+          axios.get(todoUrl).then((response) => {
+            // console.log(response.data);
+            setTodoList(response.data);
+          });
+        }, []);
+        return (
+          <div>
+            <SelectUser users={users} todoList={todoList} />
+          </div>
+        );
+      }
+      ReactDOM.render(<App />, rootHandle);
+    </script>
+  </body>
+</html>
